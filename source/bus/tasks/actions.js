@@ -7,4 +7,10 @@ export const tasksActions = {
             payload: tasks,
         };
     },
+    createTask: (task) => {
+        return {
+            type:    types.CREATE_TASK,
+            payload: task,
+        };
+    },
 };

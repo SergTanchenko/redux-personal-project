@@ -3,10 +3,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Instruments
+import { uniqueId } from "../../instruments/helpers";
 import Styles from "./../Scheduler/styles.m.css";
 
 // Components
 import Task from "../Task";
+import { tasksActions } from "./../../bus/tasks/actions";
 
 const mapStateToProps = (state) => {
     return {
@@ -14,7 +16,14 @@ const mapStateToProps = (state) => {
     };
 };
 
-@connect(mapStateToProps)
+const mapDispatchToProps = {
+    addTask: tasksActions.createTask,
+};
+
+@connect(
+    mapStateToProps,
+    mapDispatchToProps
+)
 export default class Scheduler extends Component {
     _addTask = (event) => {
         event.preventDefault();
@@ -22,14 +31,14 @@ export default class Scheduler extends Component {
 
         if (taskMessage.trim().length > 0) {
             const newTask = {
-                id: "qweqw",
+                id: uniqueId(),
                 completed: false,
                 favorite: false,
             };
 
             newTask.message = taskMessage;
-
-            tasks.push(newTask);
+            const { addTask: createTask } = this.props;
+            createTask(newTask);
         }
     };
 
