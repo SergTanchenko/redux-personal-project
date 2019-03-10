@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import { schedulerReducer as tasks } from "../bus/scheduler/reducer";
+import { tasksReducer as tasks } from "../bus/tasks/reducer";
 
 export const rootReducer = combineReducers({
     tasks,
