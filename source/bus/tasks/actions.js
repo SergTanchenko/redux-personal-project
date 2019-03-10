@@ -29,9 +29,13 @@ export const tasksActions = {
 
         dispatch(tasksActions.fillTasks(data));
     },
-    createTaskAsync: () => async (dispatch) => {
+    createTaskAsync: (taskMessage) => async (dispatch) => {
         dispatch({
             type: types.CREATE_TASK_ASYNC,
         });
+        const response = await api.tasks.create(taskMessage);
+        const { data } = await response.json();
+
+        dispatch(tasksActions.createTask(data));
     },
 };

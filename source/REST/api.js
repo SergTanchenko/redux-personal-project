@@ -10,5 +10,16 @@ export const api = {
                 },
             });
         },
+
+        create (taskMessage) {
+            return fetch(`${MAIN_URL}/`, {
+                method:  "POST",
+                headers: {
+                    Authorization:  TOKEN,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ message: taskMessage }),
+            });
+        },
     },
 };

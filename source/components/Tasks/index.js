@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Instruments
-import { uniqueId } from "../../instruments/helpers";
 import Styles from "./../Scheduler/styles.m.css";
 
 // Components
@@ -23,20 +22,13 @@ const mapDispatchToProps = tasksActions;
     mapDispatchToProps
 )
 export default class Scheduler extends Component {
-    _addTask = (event) => {
+    _createTask = (event) => {
         event.preventDefault();
         const taskMessage = event.currentTarget.elements.task.value;
 
         if (taskMessage.trim().length > 0) {
-            const newTask = {
-                id: uniqueId(),
-                completed: false,
-                favorite: false,
-            };
-
-            newTask.message = taskMessage;
             const { createTaskAsync } = this.props;
-            createTaskAsync(newTask);
+            createTaskAsync(taskMessage);
         }
     };
 
@@ -61,7 +53,7 @@ export default class Scheduler extends Component {
 
         return (
             <>
-                <form onSubmit={this._addTask}>
+                <form onSubmit={this._createTask}>
                     <input
                         className={Styles.createTask}
                         maxLength={50}
