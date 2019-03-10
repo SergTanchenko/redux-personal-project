@@ -22,7 +22,7 @@ const mapDispatchToProps = tasksActions;
     mapDispatchToProps
 )
 export default class Scheduler extends Component {
-    _createTask = (event) => {
+    _createTaskAsync = (event) => {
         event.preventDefault();
         const taskMessage = event.currentTarget.elements.task.value;
 
@@ -53,7 +53,7 @@ export default class Scheduler extends Component {
 
         return (
             <>
-                <form onSubmit={this._createTask}>
+                <form onSubmit={this._createTaskAsync}>
                     <input
                         className={Styles.createTask}
                         maxLength={50}
