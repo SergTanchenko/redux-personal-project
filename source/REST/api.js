@@ -10,7 +10,6 @@ export const api = {
                 },
             });
         },
-
         create (taskMessage) {
             return fetch(`${MAIN_URL}/`, {
                 method:  "POST",
@@ -19,6 +18,14 @@ export const api = {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ message: taskMessage }),
+            });
+        },
+        delete (taskId) {
+            return fetch(`${MAIN_URL}/${taskId}`, {
+                method:  "DELETE",
+                headers: {
+                    Authorization: TOKEN,
+                },
             });
         },
     },

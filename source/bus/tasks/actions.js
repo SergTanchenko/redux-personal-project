@@ -16,6 +16,12 @@ export const tasksActions = {
             payload: task,
         };
     },
+    deleteTask: (id) => {
+        return {
+            type:    types.DELETE_TASK,
+            payload: id,
+        };
+    },
 
     // Async
     fillTasksAsync: () => async (dispatch) => {
@@ -54,6 +60,28 @@ export const tasksActions = {
             }
 
             dispatch(tasksActions.createTask(data));
+        } catch (error) {
+            //TODO: create uiAction for it and remove console.log
+            console.log(error);
+        } finally {
+            dispatch(uiActions.stopFetching());
+        }
+    },
+    deleteTaskAsync: (taskId) => async (dispatch) => {
+        try {
+            dispatch(uiActions.startFetching());
+            dispatch({
+                type: types.DELETE_TASK_ASYNC,
+            });
+            const response = await api.tasks.delete(taskId);
+
+            if (response.status !== 204) {
+                const { message } = await response.json();
+
+                throw new Error(message);
+            }
+
+            dispatch(tasksActions.deleteTask(taskId));
         } catch (error) {
             //TODO: create uiAction for it and remove console.log
             console.log(error);

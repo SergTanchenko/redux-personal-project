@@ -1,55 +1,69 @@
 // Core
-import React, { PureComponent } from 'react';
-import cx from 'classnames';
+import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import cx from "classnames";
 
 // Instruments
-import Styles from './styles.m.css';
+import Styles from "./styles.m.css";
 
 // Components
-import Checkbox from '../../theme/assets/Checkbox';
-import Remove from '../../theme/assets/Remove';
-import Edit from '../../theme/assets/Edit';
-import Star from '../../theme/assets/Star';
+import Checkbox from "../../theme/assets/Checkbox";
+import Remove from "../../theme/assets/Remove";
+import Edit from "../../theme/assets/Edit";
+import Star from "../../theme/assets/Star";
 
+import { tasksActions } from "../../bus/tasks/actions";
+
+const mapDispatchToProps = {
+    deleteTaskAsync: tasksActions.deleteTaskAsync,
+};
+
+@connect(
+    null,
+    mapDispatchToProps
+)
 export default class Task extends PureComponent {
-    render () {
-        const { message, completed } = this.props;
+    render() {
+        const { id, message, completed, deleteTaskAsync } = this.props;
 
         const styles = cx(Styles.task, {
             [Styles.completed]: completed,
         });
 
         return (
-            <li className = { styles }>
-                <div className = { Styles.content }>
+            <li className={styles}>
+                <div className={Styles.content}>
                     <Checkbox
                         inlineBlock
-                        className = { Styles.toggleTaskCompletedState }
-                        color1 = '#3B8EF3'
-                        color2 = '#FFF'
+                        className={Styles.toggleTaskCompletedState}
+                        color1="#3B8EF3"
+                        color2="#FFF"
                     />
-                    <input disabled type = 'text' value = { message } />
+                    <input disabled type="text" value={message} />
                 </div>
-                <div className = { Styles.actions }>
+                <div className={Styles.actions}>
                     <Star
                         checked
                         inlineBlock
-                        className = { Styles.toggleTaskFavoriteState }
-                        color1 = '#3B8EF3'
-                        color2 = '#000'
+                        className={Styles.toggleTaskFavoriteState}
+                        color1="#3B8EF3"
+                        color2="#000"
                     />
                     <Edit
                         inlineBlock
-                        checked = { false }
-                        className = { Styles.updateTaskMessageOnClick }
-                        color1 = '#3B8EF3'
-                        color2 = '#000'
+                        checked={false}
+                        className={Styles.updateTaskMessageOnClick}
+                        color1="#3B8EF3"
+                        color2="#000"
                     />
                     <Remove
                         inlineBlock
-                        className = { Styles.removeTask }
-                        color1 = '#3B8EF3'
-                        color2 = '#000'
+                        className={Styles.removeTask}
+                        color1="#3B8EF3"
+                        color2="#000"
+                        onClick={() => {
+                            deleteTaskAsync(id);
+                        }}
                     />
                 </div>
             </li>
