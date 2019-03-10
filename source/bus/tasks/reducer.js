@@ -1,8 +1,7 @@
 import { types } from "./types";
-import { tasks } from "./../../components/Tasks/tasks";
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
-const initialState = fromJS(tasks);
+const initialState = List();
 
 export const tasksReducer = (state = initialState, action) => {
     switch (action.type) {

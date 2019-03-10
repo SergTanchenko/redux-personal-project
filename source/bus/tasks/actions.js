@@ -1,7 +1,11 @@
+import { fromJs } from "immutable";
+
 import { types } from "./types";
+import { api } from "../../REST/api";
 
 export const tasksActions = {
-    loadTasks: (tasks) => {
+    // Sync
+    fillTasks: (tasks) => {
         return {
             type:    types.FILL_TASKS,
             payload: tasks,
@@ -12,5 +16,22 @@ export const tasksActions = {
             type:    types.CREATE_TASK,
             payload: task,
         };
+    },
+
+    // Async
+    fillTasksAsync: () => async (dispatch) => {
+        dispatch({
+            type: types.FILL_TASKS_ASYNC,
+        });
+
+        const response = await api.tasks.fetch();
+        const { data } = await response.json();
+
+        dispatch(tasksActions.fillTasks(data));
+    },
+    createTaskAsync: () => async (dispatch) => {
+        dispatch({
+            type: types.CREATE_TASK_ASYNC,
+        });
     },
 };

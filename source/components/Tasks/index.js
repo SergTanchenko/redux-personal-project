@@ -16,9 +16,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = {
-    addTask: tasksActions.createTask,
-};
+const mapDispatchToProps = tasksActions;
 
 @connect(
     mapStateToProps,
@@ -37,9 +35,14 @@ export default class Scheduler extends Component {
             };
 
             newTask.message = taskMessage;
-            const { addTask: createTask } = this.props;
-            createTask(newTask);
+            const { createTaskAsync } = this.props;
+            createTaskAsync(newTask);
         }
+    };
+
+    componentDidMount = () => {
+        const { fillTasksAsync } = this.props;
+        fillTasksAsync();
     };
 
     render() {
