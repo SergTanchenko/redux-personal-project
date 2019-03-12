@@ -22,6 +22,12 @@ export const tasksActions = {
             payload: id,
         };
     },
+    updateTask: (updatedTask) => {
+        return {
+            type:    types.UPDATE_TASK,
+            payload: updatedTask,
+        };
+    },
 
     // Async
     fillTasksAsync: () => async (dispatch) => {
@@ -82,6 +88,28 @@ export const tasksActions = {
             }
 
             dispatch(tasksActions.deleteTask(taskId));
+        } catch (error) {
+            //TODO: create uiAction for it and remove console.log
+            console.log(error);
+        } finally {
+            dispatch(uiActions.stopFetching());
+        }
+    },
+    updateTaskAsync: ({ updatedTask, updatedProperty }) => async (dispatch) => {
+        try {
+            dispatch(uiActions.startFetching());
+            dispatch({
+                type: types.UPDATE_TASK_ASYNC,
+            });
+
+            const response = await api.tasks.update(updatedTask);
+            const { data, message } = await response.json();
+
+            if (response.status !== 200) {
+                throw new Error(message);
+            }
+
+            dispatch(tasksActions.updateTask({ data, updatedProperty }));
         } catch (error) {
             //TODO: create uiAction for it and remove console.log
             console.log(error);

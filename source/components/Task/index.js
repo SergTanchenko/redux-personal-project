@@ -14,7 +14,14 @@ import Star from "../../theme/assets/Star";
 
 export default class Task extends PureComponent {
     render () {
-        const { message, completed, onRemoveTask } = this.props;
+        const {
+            message,
+            completed,
+            favorite,
+            onRemoveTask,
+            onToggleTaskCompletedState,
+            onToggleTaskFavoriteState,
+        } = this.props;
 
         const styles = cx(Styles.task, {
             [Styles.completed]: completed,
@@ -24,20 +31,23 @@ export default class Task extends PureComponent {
             <li className = { styles }>
                 <div className = { Styles.content }>
                     <Checkbox
-                        inlineBlock
+                        checked = { completed }
                         className = { Styles.toggleTaskCompletedState }
                         color1 = '#3B8EF3'
                         color2 = '#FFF'
+                        inlineBlock
+                        onClick = { onToggleTaskCompletedState }
                     />
                     <input disabled type = 'text' value = { message } />
                 </div>
                 <div className = { Styles.actions }>
                     <Star
-                        checked
+                        checked = { favorite }
                         inlineBlock
                         className = { Styles.toggleTaskFavoriteState }
                         color1 = '#3B8EF3'
                         color2 = '#000'
+                        onClick = { onToggleTaskFavoriteState }
                     />
                     <Edit
                         inlineBlock
@@ -45,6 +55,7 @@ export default class Task extends PureComponent {
                         className = { Styles.updateTaskMessageOnClick }
                         color1 = '#3B8EF3'
                         color2 = '#000'
+                        onClick = { () => console.log("updateTaskMessageOnClick") }
                     />
                     <Remove
                         inlineBlock

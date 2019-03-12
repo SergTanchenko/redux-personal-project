@@ -38,7 +38,17 @@ export default class Scheduler extends Component {
     };
 
     render() {
-        const { tasks, deleteTaskAsync } = this.props;
+        const { tasks, deleteTaskAsync, updateTaskAsync } = this.props;
+
+        const toggleTaskState = (task, updatedProperty) => {
+            console.log(task);
+            const updatedTask = task.set(
+                updatedProperty,
+                !task.get(updatedProperty)
+            );
+
+            updateTaskAsync({ updatedTask, updatedProperty });
+        };
 
         const todoList = tasks.map((task) => {
             const taskId = task.get("id");
@@ -49,6 +59,12 @@ export default class Scheduler extends Component {
                     id={taskId}
                     key={taskId}
                     message={task.get("message")}
+                    onToggleTaskCompletedState={() =>
+                        toggleTaskState(task, "completed")
+                    }
+                    onToggleTaskFavoriteState={() =>
+                        toggleTaskState(task, "favorite")
+                    }
                     onRemoveTask={() => deleteTaskAsync(taskId)}
                     {...task}
                 />
