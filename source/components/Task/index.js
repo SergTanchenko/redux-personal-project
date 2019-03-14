@@ -29,6 +29,7 @@ export default class Task extends PureComponent {
             onToggleTaskCompletedState,
             onToggleTaskFavoriteState,
             startEditing,
+            stopEditing,
             editingTask,
         } = this.props;
 
@@ -36,11 +37,10 @@ export default class Task extends PureComponent {
             [Styles.completed]: completed,
         });
 
-        const isEditMode = editingTask && editingTask.get("id") === id;
+        const isEditMode = editingTask.get("id") === id;
 
-        console.log("EDITING!!!!: ", isEditMode);
         const onToggleEditingMode = () => {
-            startEditing(id, message);
+            isEditMode ? stopEditing() : startEditing(id, message);
         };
 
         return (

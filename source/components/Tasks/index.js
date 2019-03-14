@@ -51,7 +51,12 @@ export default class Tasks extends Component {
         const {
             tasks,
             editingTask,
-            actions: { deleteTaskAsync, updateTaskAsync, startEditing },
+            actions: {
+                deleteTaskAsync,
+                updateTaskAsync,
+                startEditing,
+                stopEditing,
+            },
         } = this.props;
 
         const toggleTaskState = (task, updatedProperty) => {
@@ -79,6 +84,7 @@ export default class Tasks extends Component {
                         toggleTaskState(task, "favorite")
                     }
                     startEditing={startEditing}
+                    stopEditing={stopEditing}
                     editingTask={editingTask}
                     onRemoveTask={() => deleteTaskAsync(taskId)}
                     {...task}
