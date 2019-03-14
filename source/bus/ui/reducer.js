@@ -1,5 +1,5 @@
 import { types } from "./types";
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 
 const initialState = Map({
     isFetching: false,
@@ -11,6 +11,10 @@ export const uiReducer = (state = initialState, action) => {
             return state.set("isFetching", true);
         case types.STOP_FETCHING:
             return state.set("isFetching", false);
+        case types.START_EDITING:
+            return state.set("editingTask", fromJS(action.payload));
+        case types.STOP_EDITING:
+            return state.set("editingTask", Map());
         default:
             return state;
     }

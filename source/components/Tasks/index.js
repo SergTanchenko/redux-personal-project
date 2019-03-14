@@ -1,6 +1,7 @@
 // Core
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 // Instruments
 import Styles from "./../Scheduler/styles.m.css";
@@ -8,40 +9,52 @@ import Styles from "./../Scheduler/styles.m.css";
 // Components
 import Task from "../Task";
 import { tasksActions } from "./../../bus/tasks/actions";
+import { uiActions } from "./../../bus/ui/actions";
 
 const mapStateToProps = (state) => {
     return {
         tasks: state.tasks,
+        editingTask: state.ui.get("editingTask"),
     };
 };
 
-const mapDispatchToProps = tasksActions;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(
+            { ...tasksActions, ...uiActions },
+            dispatch
+        ),
+    };
+};
 
 @connect(
     mapStateToProps,
     mapDispatchToProps
 )
-export default class Scheduler extends Component {
+export default class Tasks extends Component {
     _createTaskAsync = (event) => {
         event.preventDefault();
         const taskMessage = event.currentTarget.elements.task.value;
 
         if (taskMessage.trim().length > 0) {
-            const { createTaskAsync } = this.props;
-            createTaskAsync(taskMessage);
+            const { actions } = this.props;
+            actions.createTaskAsync(taskMessage);
         }
     };
 
     componentDidMount = () => {
-        const { fillTasksAsync } = this.props;
-        fillTasksAsync();
+        const { actions } = this.props;
+        actions.fillTasksAsync();
     };
 
     render() {
-        const { tasks, deleteTaskAsync, updateTaskAsync } = this.props;
+        const {
+            tasks,
+            editingTask,
+            actions: { deleteTaskAsync, updateTaskAsync, startEditing },
+        } = this.props;
 
         const toggleTaskState = (task, updatedProperty) => {
-            console.log(task);
             const updatedTask = task.set(
                 updatedProperty,
                 !task.get(updatedProperty)
@@ -65,6 +78,8 @@ export default class Scheduler extends Component {
                     onToggleTaskFavoriteState={() =>
                         toggleTaskState(task, "favorite")
                     }
+                    startEditing={startEditing}
+                    editingTask={editingTask}
                     onRemoveTask={() => deleteTaskAsync(taskId)}
                     {...task}
                 />

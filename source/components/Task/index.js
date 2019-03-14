@@ -1,5 +1,5 @@
 // Core
-import React, { PureComponent } from "react";
+import React, { PureComponent, createRef } from "react";
 import { connect } from "react-redux";
 import cx from "classnames";
 
@@ -13,19 +13,35 @@ import Edit from "../../theme/assets/Edit";
 import Star from "../../theme/assets/Star";
 
 export default class Task extends PureComponent {
+    inputEl = createRef();
+
+    componentDidUpdate () {
+        this.inputEl.current.focus();
+    }
+
     render () {
         const {
+            id,
             message,
             completed,
             favorite,
             onRemoveTask,
             onToggleTaskCompletedState,
             onToggleTaskFavoriteState,
+            startEditing,
+            editingTask,
         } = this.props;
 
         const styles = cx(Styles.task, {
             [Styles.completed]: completed,
         });
+
+        const isEditMode = editingTask && editingTask.get("id") === id;
+
+        console.log("EDITING!!!!: ", isEditMode);
+        const onToggleEditingMode = () => {
+            startEditing(id, message);
+        };
 
         return (
             <li className = { styles }>
@@ -38,7 +54,12 @@ export default class Task extends PureComponent {
                         inlineBlock
                         onClick = { onToggleTaskCompletedState }
                     />
-                    <input disabled type = 'text' value = { message } />
+                    <input
+                        disabled = { !isEditMode }
+                        ref = { this.inputEl }
+                        type = 'text'
+                        value = { message }
+                    />
                 </div>
                 <div className = { Styles.actions }>
                     <Star
@@ -55,7 +76,7 @@ export default class Task extends PureComponent {
                         className = { Styles.updateTaskMessageOnClick }
                         color1 = '#3B8EF3'
                         color2 = '#000'
-                        onClick = { () => console.log("updateTaskMessageOnClick") }
+                        onClick = { onToggleEditingMode }
                     />
                     <Remove
                         inlineBlock
