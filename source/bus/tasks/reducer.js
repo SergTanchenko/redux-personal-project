@@ -3,9 +3,7 @@ import { fromJS, List } from "immutable";
 
 const initialState = List();
 
-const taskIdEqualsTo = (taskId) => {
-    return (task) => task.get("id") === taskId;
-};
+const taskIdEqualsTo = (taskId) => {};
 
 export const tasksReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -18,15 +16,11 @@ export const tasksReducer = (state = initialState, action) => {
                 task.get("id") !== action.payload;
             });
         case types.UPDATE_TASK:
-            const { data, updatedProperty } = action.payload;
-            const updatedTask = fromJS(data).first();
+            const { task: updatedTask } = action.payload;
 
-            return state.updateIn(
-                [
-                    state.findIndex(taskIdEqualsTo(updatedTask.get("id"))),
-                    updatedProperty
-                ],
-                () => updatedTask.get(updatedProperty)
+            return state.update(
+                state.findIndex((task) => task.get("id") === updatedTask.id),
+                () => fromJS(updatedTask)
             );
 
         default:

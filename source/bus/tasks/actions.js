@@ -95,7 +95,7 @@ export const tasksActions = {
             dispatch(uiActions.stopFetching());
         }
     },
-    updateTaskAsync: ({ updatedTask, updatedProperty }) => async (dispatch) => {
+    updateTaskAsync: ({ updatedTask }) => async (dispatch) => {
         try {
             dispatch(uiActions.startFetching());
             dispatch({
@@ -103,13 +103,16 @@ export const tasksActions = {
             });
 
             const response = await api.tasks.update(updatedTask);
-            const { data, message } = await response.json();
+            const {
+                data: [task],
+                message,
+            } = await response.json();
 
             if (response.status !== 200) {
                 throw new Error(message);
             }
 
-            dispatch(tasksActions.updateTask({ data, updatedProperty }));
+            dispatch(tasksActions.updateTask({ task }));
         } catch (error) {
             //TODO: create uiAction for it and remove console.log
             console.log(error);

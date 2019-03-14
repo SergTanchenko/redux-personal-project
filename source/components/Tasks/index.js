@@ -65,7 +65,7 @@ export default class Tasks extends Component {
                 !task.get(updatedProperty)
             );
 
-            updateTaskAsync({ updatedTask, updatedProperty });
+            updateTaskAsync({ updatedTask });
         };
 
         const todoList = tasks.map((task) => {

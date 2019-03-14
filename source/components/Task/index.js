@@ -29,6 +29,7 @@ export default class Task extends PureComponent {
             onToggleTaskCompletedState,
             onToggleTaskFavoriteState,
             startEditing,
+            onTaskMessageSave,
             stopEditing,
             editingTask,
         } = this.props;
@@ -39,8 +40,14 @@ export default class Task extends PureComponent {
 
         const isEditMode = editingTask.get("id") === id;
 
-        const onToggleEditingMode = () => {
+        const _onToggleEditingMode = () => {
             isEditMode ? stopEditing() : startEditing(id, message);
+        };
+
+        const _onKeyDownHandler = (event) => {
+            if (event.keyCode === 13) {
+                // onTaskMessageSave()
+            }
         };
 
         return (
@@ -59,6 +66,7 @@ export default class Task extends PureComponent {
                         ref = { this.inputEl }
                         type = 'text'
                         value = { message }
+                        onKeyDown = { _onKeyDownHandler }
                     />
                 </div>
                 <div className = { Styles.actions }>
@@ -76,7 +84,7 @@ export default class Task extends PureComponent {
                         className = { Styles.updateTaskMessageOnClick }
                         color1 = '#3B8EF3'
                         color2 = '#000'
-                        onClick = { onToggleEditingMode }
+                        onClick = { _onToggleEditingMode }
                     />
                     <Remove
                         inlineBlock
