@@ -59,11 +59,8 @@ export default class Tasks extends Component {
             },
         } = this.props;
 
-        const toggleTaskState = (task, updatedProperty) => {
-            const updatedTask = task.set(
-                updatedProperty,
-                !task.get(updatedProperty)
-            );
+        const _updateTaskAsync = (task, updatedProperty, newValue) => {
+            const updatedTask = task.set(updatedProperty, newValue);
 
             updateTaskAsync({ updatedTask });
         };
@@ -77,11 +74,14 @@ export default class Tasks extends Component {
                     id={taskId}
                     key={taskId}
                     message={task.get("message")}
-                    onToggleTaskCompletedState={() =>
-                        toggleTaskState(task, "completed")
+                    onToggleTaskCompletedState={(newValue) =>
+                        _updateTaskAsync(task, "completed", newValue)
                     }
-                    onToggleTaskFavoriteState={() =>
-                        toggleTaskState(task, "favorite")
+                    onToggleTaskFavoriteState={(newValue) =>
+                        _updateTaskAsync(task, "favorite", newValue)
+                    }
+                    onTaskMessageSave={(newValue) =>
+                        _updateTaskAsync(task, "message", newValue)
                     }
                     startEditing={startEditing}
                     stopEditing={stopEditing}

@@ -46,7 +46,7 @@ export default class Task extends PureComponent {
 
         const _onKeyDownHandler = (event) => {
             if (event.keyCode === 13) {
-                // onTaskMessageSave()
+                console.log("value: ", this.inputEl.current.value);
             }
         };
 
@@ -59,7 +59,7 @@ export default class Task extends PureComponent {
                         color1 = '#3B8EF3'
                         color2 = '#FFF'
                         inlineBlock
-                        onClick = { onToggleTaskCompletedState }
+                        onClick = { () => onToggleTaskCompletedState(!completed) }
                     />
                     <input
                         disabled = { !isEditMode }
@@ -76,7 +76,7 @@ export default class Task extends PureComponent {
                         className = { Styles.toggleTaskFavoriteState }
                         color1 = '#3B8EF3'
                         color2 = '#000'
-                        onClick = { onToggleTaskFavoriteState }
+                        onClick = { () => onToggleTaskFavoriteState(!favorite) }
                     />
                     <Edit
                         inlineBlock

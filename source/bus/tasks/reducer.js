@@ -3,8 +3,6 @@ import { fromJS, List } from "immutable";
 
 const initialState = List();
 
-const taskIdEqualsTo = (taskId) => {};
-
 export const tasksReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.FILL_TASKS:
