@@ -42,9 +42,33 @@ export default class Tasks extends Component {
         }
     };
 
+    _onEscapeClickedHandler = (event) => {
+        if (event.keyCode === 27) {
+            const {
+                actions: { stopEditing },
+            } = this.props;
+
+            stopEditing();
+        }
+    };
+
+    componentWillUnmount = () => {
+        document.removeEventListener(
+            "keydown",
+            this._onEscapeClickedHandler,
+            false
+        );
+    };
+
     componentDidMount = () => {
         const { actions } = this.props;
         actions.fillTasksAsync();
+
+        document.addEventListener(
+            "keydown",
+            this._onEscapeClickedHandler,
+            false
+        );
     };
 
     render() {

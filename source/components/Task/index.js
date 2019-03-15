@@ -15,9 +15,9 @@ import Star from "../../theme/assets/Star";
 export default class Task extends PureComponent {
     inputEl = createRef();
 
-    componentDidUpdate () {
+    componentDidUpdate = () => {
         this.inputEl.current.focus();
-    }
+    };
 
     render () {
         const {
@@ -58,9 +58,9 @@ export default class Task extends PureComponent {
         };
 
         const _onKeyDownHandler = (event) => {
-            const updatedMessage = this.inputEl.current.value;
-
             if (event.keyCode === 13) {
+                const updatedMessage = this.inputEl.current.value;
+
                 onTaskMessageSave(updatedMessage);
                 startEditing();
             }
