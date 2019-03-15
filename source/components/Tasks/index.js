@@ -56,6 +56,7 @@ export default class Tasks extends Component {
                 updateTaskAsync,
                 startEditing,
                 stopEditing,
+                updateEditedMessage,
             },
         } = this.props;
 
@@ -86,6 +87,7 @@ export default class Tasks extends Component {
                     startEditing={startEditing}
                     stopEditing={stopEditing}
                     editingTask={editingTask}
+                    updateEditedMessage={updateEditedMessage}
                     onRemoveTask={() => deleteTaskAsync(taskId)}
                     {...task}
                 />

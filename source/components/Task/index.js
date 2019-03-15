@@ -32,6 +32,7 @@ export default class Task extends PureComponent {
             onTaskMessageSave,
             stopEditing,
             editingTask,
+            updateEditedMessage,
         } = this.props;
 
         const styles = cx(Styles.task, {
@@ -44,9 +45,26 @@ export default class Task extends PureComponent {
             isEditMode ? stopEditing() : startEditing(id, message);
         };
 
+        let currentMessage = message;
+
+        if (isEditMode) {
+            currentMessage = editingTask.get("updatedMessage");
+        }
+
+        const _onChangeHandler = (event) => {
+            const updatedMessage = this.inputEl.current.value;
+
+            updateEditedMessage({ updatedMessage });
+        };
+
         const _onKeyDownHandler = (event) => {
+            const updatedMessage = this.inputEl.current.value;
+
             if (event.keyCode === 13) {
-                console.log("value: ", this.inputEl.current.value);
+                console.log("value: ", updatedMessage);
+                // onTaskMessageSave({updatedMessage});
+            } else {
+                console.log("value: ", updatedMessage);
             }
         };
 
@@ -63,10 +81,11 @@ export default class Task extends PureComponent {
                     />
                     <input
                         disabled = { !isEditMode }
+                        onChange = { _onChangeHandler }
+                        onKeyDown = { _onKeyDownHandler }
                         ref = { this.inputEl }
                         type = 'text'
-                        value = { message }
-                        onKeyDown = { _onKeyDownHandler }
+                        value = { currentMessage }
                     />
                 </div>
                 <div className = { Styles.actions }>

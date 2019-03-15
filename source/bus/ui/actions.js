@@ -17,6 +17,12 @@ export const uiActions = {
             payload: { id, initialMessage },
         };
     },
+    updateEditedMessage: (updatedMessage) => {
+        return {
+            type:    types.UPDATE_EDITING_MESSAGE,
+            payload: updatedMessage,
+        };
+    },
     stopEditing: () => {
         return {
             type: types.STOP_EDITING,
