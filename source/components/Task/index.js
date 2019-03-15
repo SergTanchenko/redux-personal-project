@@ -61,10 +61,8 @@ export default class Task extends PureComponent {
             const updatedMessage = this.inputEl.current.value;
 
             if (event.keyCode === 13) {
-                console.log("value: ", updatedMessage);
-                // onTaskMessageSave({updatedMessage});
-            } else {
-                console.log("value: ", updatedMessage);
+                onTaskMessageSave(updatedMessage);
+                startEditing();
             }
         };
 
