@@ -1,3 +1,4 @@
+import { actions } from "react-redux-form";
 import { types } from "./types";
 import { api } from "../../REST/api";
 import { uiActions } from "../../bus/ui/actions";
@@ -72,6 +73,7 @@ export const tasksActions = {
             }
 
             dispatch(tasksActions.createTask(data));
+            dispatch(actions.reset("forms.addTask"));
         } catch (error) {
             //TODO: create uiAction for it and remove console.log
             console.log(error);

@@ -1,6 +1,7 @@
 // Core
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Form, Control } from "react-redux-form";
 import { bindActionCreators } from "redux";
 
 // Instruments
@@ -32,13 +33,10 @@ const mapDispatchToProps = (dispatch) => {
     mapDispatchToProps
 )
 export default class Tasks extends Component {
-    _createTaskAsync = (event) => {
-        event.preventDefault();
-        const taskMessage = event.currentTarget.elements.task.value;
-
-        if (taskMessage.trim().length > 0) {
+    _createTaskAsync = ({ newTask }) => {
+        if (newTask && newTask.trim().length > 0) {
             const { actions } = this.props;
-            actions.createTaskAsync(taskMessage);
+            actions.createTaskAsync(newTask);
         }
     };
 
@@ -120,16 +118,17 @@ export default class Tasks extends Component {
 
         return (
             <>
-                <form onSubmit={this._createTaskAsync}>
-                    <input
+                <Form model="forms.addTask" onSubmit={this._createTaskAsync}>
+                    <Control.input
                         className={Styles.createTask}
-                        maxLength={50}
-                        name="task"
-                        placeholder="Описание моей новой задачи"
                         type="text"
+                        maxLength={50}
+                        model=".newTask"
+                        placeholder="Описание моей новой задачи"
                     />
                     <button>Добавить задачу</button>
-                </form>
+                </Form>
+
                 <div className={Styles.overlay}>
                     <ul>{todoList}</ul>
                 </div>

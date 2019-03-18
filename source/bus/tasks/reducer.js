@@ -10,9 +10,7 @@ export const tasksReducer = (state = initialState, action) => {
         case types.CREATE_TASK:
             return state.push(fromJS(action.payload));
         case types.DELETE_TASK:
-            return state.filter((task) => {
-                task.get("id") !== action.payload;
-            });
+            return state.filter((task) => task.get("id") !== action.payload);
         case types.UPDATE_TASK:
             const { task: updatedTask } = action.payload;
 
