@@ -5,4 +5,6 @@ export const types = {
     START_EDITING:          "START_EDITING",
     STOP_EDITING:           "STOP_EDITING",
     UPDATE_EDITING_MESSAGE: "UPDATE_EDITING_MESSAGE",
+
+    EMIT_ERROR: "EMIT_ERROR",
 };

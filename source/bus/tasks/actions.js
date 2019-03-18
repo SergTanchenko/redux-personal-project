@@ -53,8 +53,7 @@ export const tasksActions = {
 
             dispatch(tasksActions.fillTasks(data));
         } catch (error) {
-            //TODO: create uiAction for it and remove console.log
-            console.log(error);
+            dispatch(uiActions.emitError(error, "fillTasksAsync"));
         } finally {
             dispatch(uiActions.stopFetching());
         }
@@ -75,8 +74,7 @@ export const tasksActions = {
             dispatch(tasksActions.createTask(data));
             dispatch(actions.reset("forms.addTask"));
         } catch (error) {
-            //TODO: create uiAction for it and remove console.log
-            console.log(error);
+            dispatch(uiActions.emitError(error, "createTaskAsync"));
         } finally {
             dispatch(uiActions.stopFetching());
         }
@@ -97,8 +95,7 @@ export const tasksActions = {
 
             dispatch(tasksActions.deleteTask(taskId));
         } catch (error) {
-            //TODO: create uiAction for it and remove console.log
-            console.log(error);
+            dispatch(uiActions.emitError(error, "deleteTaskAsync"));
         } finally {
             dispatch(uiActions.stopFetching());
         }
@@ -122,8 +119,7 @@ export const tasksActions = {
 
             dispatch(tasksActions.updateTask({ task }));
         } catch (error) {
-            //TODO: create uiAction for it and remove console.log
-            console.log(error);
+            dispatch(uiActions.emitError(error, "updateTaskAsync"));
         } finally {
             dispatch(uiActions.stopFetching());
         }
@@ -149,8 +145,7 @@ export const tasksActions = {
             //Probably we should pass data to the reducer and update state using returned values by the server
             dispatch(tasksActions.markAllTasksAsDone());
         } catch (error) {
-            //TODO: create uiAction for it and remove console.log
-            console.log(error);
+            dispatch(uiActions.emitError(error, "markAllTasksAsDoneAsync"));
         } finally {
             dispatch(uiActions.stopFetching());
         }

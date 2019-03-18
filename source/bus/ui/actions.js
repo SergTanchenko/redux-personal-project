@@ -28,4 +28,12 @@ export const uiActions = {
             type: types.STOP_EDITING,
         };
     },
+    emitError: (error, meta = null) => {
+        return {
+            type:    types.EMIT_ERROR,
+            payload: error,
+            error:   true,
+            meta,
+        };
+    },
 };
