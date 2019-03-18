@@ -1,9 +1,9 @@
 // Core
-import getRepositoryName from 'git-repo-name';
-import chalk from 'chalk';
+import getRepositoryName from "git-repo-name";
+import chalk from "chalk";
 
 // Paths
-import { source, build } from '../paths';
+import { source, build } from "../paths";
 
 // Webpack modules
 import {
@@ -14,15 +14,16 @@ import {
     setupContextReplacement,
     setupStyledReporting,
     initializeEnvVariables
-} from '../modules';
+} from "../modules";
 
 // Instruments
-import merge from 'webpack-merge';
+import merge from "webpack-merge";
 
 export const generateCommonConfiguration = () => {
     const BUILD_ENV = process.env.BUILD_ENV;
-    const IS_DEPLOYING_TO_GITHUB_PAGES = process.env.DEPLOY_TARGET === 'github-pages';
-    let REPOSITORY_NAME = '';
+    const IS_DEPLOYING_TO_GITHUB_PAGES =
+        process.env.DEPLOY_TARGET === "github-pages";
+    let REPOSITORY_NAME = "";
 
     try {
         REPOSITORY_NAME = getRepositoryName.sync();
@@ -50,8 +51,8 @@ export const generateCommonConfiguration = () => {
         setupStyledReporting(),
         initializeEnvVariables({
             __ENV__:  JSON.stringify(BUILD_ENV),
-            __DEV__:  BUILD_ENV === 'development',
-            __PROD__: BUILD_ENV === 'production',
+            __DEV__:  BUILD_ENV === "development",
+            __PROD__: BUILD_ENV === "production",
         }),
         {
             entry: {
@@ -59,11 +60,21 @@ export const generateCommonConfiguration = () => {
             },
             output: {
                 path:       build,
-                publicPath: IS_DEPLOYING_TO_GITHUB_PAGES ? `/${REPOSITORY_NAME}/` : '/',
+                publicPath: IS_DEPLOYING_TO_GITHUB_PAGES
+                    ? `/${REPOSITORY_NAME}/`
+                    : "/",
             },
             resolve: {
-                extensions: ['.mjs', '.js', '.json', '.css', '.m.css', '.png', '.jpg'],
-                modules:    [source, 'node_modules'],
+                extensions: [
+                    ".mjs",
+                    ".js",
+                    ".json",
+                    ".css",
+                    ".m.css",
+                    ".png",
+                    ".jpg"
+                ],
+                modules: [source, "node_modules"],
             },
             optimization: {
                 nodeEnv: process.env.NODE_ENV,

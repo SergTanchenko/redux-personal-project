@@ -28,6 +28,12 @@ export const tasksActions = {
             payload: updatedTask,
         };
     },
+    markAllTasksAsDone: (updatedTasks) => {
+        return {
+            type:    types.MARK_ALL_TASKS_AS_DONE,
+            payload: updatedTasks,
+        };
+    },
 
     // Async
     fillTasksAsync: () => async (dispatch) => {
@@ -113,6 +119,33 @@ export const tasksActions = {
             }
 
             dispatch(tasksActions.updateTask({ task }));
+        } catch (error) {
+            //TODO: create uiAction for it and remove console.log
+            console.log(error);
+        } finally {
+            dispatch(uiActions.stopFetching());
+        }
+    },
+    markAllTasksAsDoneAsync: () => async (dispatch, getState) => {
+        try {
+            dispatch(uiActions.startFetching());
+            dispatch({
+                type: types.MARK_ALL_TASKS_AS_DONE_ASYNC,
+            });
+
+            const doneTasks = getState().tasks.map((task) =>
+                task.set("completed", true)
+            );
+
+            const response = await api.tasks.updateBulk(doneTasks);
+            const { data, message } = await response.json();
+
+            if (response.status !== 200) {
+                throw new Error(message);
+            }
+
+            //Probably we should pass data to the reducer and update state using returned values by the server
+            dispatch(tasksActions.markAllTasksAsDone());
         } catch (error) {
             //TODO: create uiAction for it and remove console.log
             console.log(error);

@@ -20,6 +20,11 @@ export const tasksReducer = (state = initialState, action) => {
                 state.findIndex((task) => task.get("id") === updatedTask.id),
                 () => fromJS(updatedTask)
             );
+        case types.MARK_ALL_TASKS_AS_DONE:
+            // it is cheapest than taking returned array by the server and updating value one by one
+            // using map in map
+            // TODO: ask Dima if there is a cheap way to update
+            return state.map((task) => task.set("completed", true));
 
         default:
             return state;

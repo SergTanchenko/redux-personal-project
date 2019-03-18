@@ -9,17 +9,28 @@ import Styles from "./styles.m.css";
 import Tasks from "../Tasks";
 import Spinner from "../Spinner";
 import Checkbox from "../../theme/assets/Checkbox";
+import { tasksActions } from "../../bus/tasks/actions";
 
 const mapStateToProps = (state) => {
     return {
         isFetching: state.ui.get("isFetching"),
+        tasks: state.tasks,
     };
 };
 
-@connect(mapStateToProps)
+const mapDispatchToProps = tasksActions;
+
+@connect(
+    mapStateToProps,
+    mapDispatchToProps
+)
 export default class Scheduler extends Component {
     render() {
-        const { isFetching } = this.props;
+        const { isFetching, tasks, markAllTasksAsDoneAsync } = this.props;
+
+        const isAllTasksDone = () =>
+            tasks.every((task) => task.get("completed"));
+
         return (
             <section className={Styles.scheduler}>
                 <main>
@@ -32,7 +43,12 @@ export default class Scheduler extends Component {
                         <Tasks />
                     </section>
                     <footer>
-                        <Checkbox checked color1="#363636" color2="#fff" />
+                        <Checkbox
+                            checked={isAllTasksDone()}
+                            color1="#363636"
+                            color2="#fff"
+                            onClick={markAllTasksAsDoneAsync}
+                        />
                         <span className={Styles.completeAllTasks}>
                             Все задачи выполнены
                         </span>

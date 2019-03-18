@@ -38,5 +38,15 @@ export const api = {
                 body: JSON.stringify([task]),
             });
         },
+        updateBulk (tasks) {
+            return fetch(`${MAIN_URL}/`, {
+                method:  "PUT",
+                headers: {
+                    Authorization:  TOKEN,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(tasks),
+            });
+        },
     },
 };
