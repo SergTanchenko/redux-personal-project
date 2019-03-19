@@ -12,16 +12,16 @@ export const tasksReducer = (state = initialState, action) => {
         case types.DELETE_TASK:
             return state.filter((task) => task.get("id") !== action.payload);
         case types.UPDATE_TASK:
-            const { task: updatedTask } = action.payload;
-
             return state.update(
-                state.findIndex((task) => task.get("id") === updatedTask.id),
-                () => fromJS(updatedTask)
+                state.findIndex(
+                    (task) => task.get("id") === action.payload.task.id
+                ),
+                () => fromJS(action.payload.task)
             );
         case types.MARK_ALL_TASKS_AS_DONE:
             // it is cheapest than taking returned array by the server and updating value one by one
             // using map in map
-            // TODO: ask Dima if there is a cheap way to update
+            // TODO: ask if there is a cheap way to update
             return state.map((task) => task.set("completed", true));
 
         default:

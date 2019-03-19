@@ -12,11 +12,11 @@ import Edit from "../../theme/assets/Edit";
 import Star from "../../theme/assets/Star";
 
 export default class Task extends PureComponent {
-    inputEl = createRef();
-
     componentDidUpdate = () => {
         this.inputEl.current.focus();
     };
+
+    inputEl = createRef();
 
     render () {
         const {
@@ -50,7 +50,7 @@ export default class Task extends PureComponent {
             currentMessage = editingTask.get("updatedMessage");
         }
 
-        const _onChangeHandler = (event) => {
+        const _onChangeHandler = () => {
             const updatedMessage = this.inputEl.current.value;
 
             updateEditedMessage({ updatedMessage });
@@ -69,27 +69,27 @@ export default class Task extends PureComponent {
             <div className = { styles } key = { id }>
                 <div className = { Styles.content }>
                     <Checkbox
+                        inlineBlock
                         checked = { completed }
                         className = { Styles.toggleTaskCompletedState }
                         color1 = '#3B8EF3'
                         color2 = '#FFF'
-                        inlineBlock
                         onClick = { () => onToggleTaskCompletedState(!completed) }
                     />
                     <input
                         disabled = { !isEditMode }
                         maxLength = { 50 }
-                        onChange = { _onChangeHandler }
-                        onKeyDown = { _onKeyDownHandler }
                         ref = { this.inputEl }
                         type = 'text'
                         value = { currentMessage }
+                        onChange = { _onChangeHandler }
+                        onKeyDown = { _onKeyDownHandler }
                     />
                 </div>
                 <div className = { Styles.actions }>
                     <Star
-                        checked = { favorite }
                         inlineBlock
+                        checked = { favorite }
                         className = { Styles.toggleTaskFavoriteState }
                         color1 = '#3B8EF3'
                         color2 = '#000'

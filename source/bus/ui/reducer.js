@@ -20,10 +20,8 @@ export const uiReducer = (state = initialState, action) => {
         case types.UPDATE_SEARCH_QUERY:
             return state.set("searchQuery", action.payload);
         case types.UPDATE_EDITING_MESSAGE:
-            const { updatedMessage } = action.payload;
-
             return state.mergeIn(["editingTask"], {
-                updatedMessage,
+                updatedMessage: action.payload.updatedMessage,
             });
         default:
             return state;
