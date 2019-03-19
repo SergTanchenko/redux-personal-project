@@ -73,6 +73,7 @@ export default class Tasks extends Component {
     render() {
         const {
             tasks,
+            filter,
             editingTask,
             actions: {
                 deleteTaskAsync,
@@ -89,33 +90,40 @@ export default class Tasks extends Component {
             updateTaskAsync({ updatedTask });
         };
 
-        const todoList = tasks.map((task) => {
-            const taskId = task.get("id");
-            return (
-                <Task
-                    completed={task.get("completed")}
-                    favorite={task.get("favorite")}
-                    id={taskId}
-                    key={taskId}
-                    message={task.get("message")}
-                    onToggleTaskCompletedState={(newValue) =>
-                        _updateTaskAsync(task, "completed", newValue)
-                    }
-                    onToggleTaskFavoriteState={(newValue) =>
-                        _updateTaskAsync(task, "favorite", newValue)
-                    }
-                    onTaskMessageSave={(newValue) =>
-                        _updateTaskAsync(task, "message", newValue)
-                    }
-                    startEditing={startEditing}
-                    stopEditing={stopEditing}
-                    editingTask={editingTask}
-                    updateEditedMessage={updateEditedMessage}
-                    onRemoveTask={() => deleteTaskAsync(taskId)}
-                    {...task}
-                />
-            );
-        });
+        const todoList = tasks
+            .filter((task) =>
+                task
+                    .get("message")
+                    .toLowerCase()
+                    .includes(filter)
+            )
+            .map((task) => {
+                const taskId = task.get("id");
+                return (
+                    <Task
+                        completed={task.get("completed")}
+                        favorite={task.get("favorite")}
+                        id={taskId}
+                        key={taskId}
+                        message={task.get("message")}
+                        onToggleTaskCompletedState={(newValue) =>
+                            _updateTaskAsync(task, "completed", newValue)
+                        }
+                        onToggleTaskFavoriteState={(newValue) =>
+                            _updateTaskAsync(task, "favorite", newValue)
+                        }
+                        onTaskMessageSave={(newValue) =>
+                            _updateTaskAsync(task, "message", newValue)
+                        }
+                        startEditing={startEditing}
+                        stopEditing={stopEditing}
+                        editingTask={editingTask}
+                        updateEditedMessage={updateEditedMessage}
+                        onRemoveTask={() => deleteTaskAsync(taskId)}
+                        {...task}
+                    />
+                );
+            });
 
         return (
             <>

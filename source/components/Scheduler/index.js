@@ -1,5 +1,5 @@
 // Core
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { connect } from "react-redux";
 
 // Instruments
@@ -10,23 +10,53 @@ import Tasks from "../Tasks";
 import Spinner from "../Spinner";
 import Checkbox from "../../theme/assets/Checkbox";
 import { tasksActions } from "../../bus/tasks/actions";
+import { uiActions } from "../../bus/ui/actions";
+import { bindActionCreators } from "../../../../../Users/Sergii/AppData/Local/Microsoft/TypeScript/3.3/node_modules/redux";
 
 const mapStateToProps = (state) => {
     return {
         isFetching: state.ui.get("isFetching"),
+        searchQuery: state.ui.get("searchQuery"),
         tasks: state.tasks,
     };
 };
 
-const mapDispatchToProps = tasksActions;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(
+            { ...tasksActions, ...uiActions },
+            dispatch
+        ),
+    };
+};
 
 @connect(
     mapStateToProps,
     mapDispatchToProps
 )
 export default class Scheduler extends Component {
+    searchInput = createRef();
+
+    _updateSearchQuery = (event) => {
+        const {
+            actions: { updateSearchQuery },
+        } = this.props;
+        const searchQuery = event.target.value.toLowerCase();
+
+        if (searchQuery && searchQuery.length > 0) {
+            console.log(Styles);
+            this.searchInput.current.classList.add(Styles.notEmpty);
+        }
+
+        updateSearchQuery(searchQuery);
+    };
+
     render() {
-        const { isFetching, tasks, markAllTasksAsDoneAsync } = this.props;
+        const {
+            tasks,
+            searchQuery,
+            actions: { isFetching, markAllTasksAsDoneAsync },
+        } = this.props;
 
         const isAllTasksDone = () =>
             tasks.every((task) => task.get("completed"));
@@ -36,11 +66,17 @@ export default class Scheduler extends Component {
                 <main>
                     <header>
                         <h1>Планировщик задач</h1>
-                        <input placeholder="Поиск" type="search" />
+                        <input
+                            ref={this.searchInput}
+                            placeholder="Поиск"
+                            type="search"
+                            onChange={this._updateSearchQuery}
+                            value={searchQuery}
+                        />
                     </header>
                     <section>
                         <Spinner isSpinning={isFetching} />
-                        <Tasks />
+                        <Tasks filter={searchQuery} />
                     </section>
                     <footer>
                         <Checkbox

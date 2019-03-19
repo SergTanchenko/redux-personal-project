@@ -23,6 +23,12 @@ export const uiActions = {
             payload: updatedMessage,
         };
     },
+    updateSearchQuery: (searchQuery) => {
+        return {
+            type:    types.UPDATE_SEARCH_QUERY,
+            payload: searchQuery,
+        };
+    },
     stopEditing: () => {
         return {
             type: types.STOP_EDITING,
