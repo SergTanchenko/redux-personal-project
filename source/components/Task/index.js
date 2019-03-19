@@ -79,6 +79,7 @@ export default class Task extends PureComponent {
                     />
                     <input
                         disabled = { !isEditMode }
+                        maxLength = { 50 }
                         onChange = { _onChangeHandler }
                         onKeyDown = { _onKeyDownHandler }
                         ref = { this.inputEl }
