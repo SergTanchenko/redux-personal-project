@@ -1,6 +1,5 @@
 // Core
 import React, { PureComponent, createRef } from "react";
-import { connect } from "react-redux";
 import cx from "classnames";
 
 // Instruments
