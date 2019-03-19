@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 
 // Instruments
 import Styles from "./../Scheduler/styles.m.css";
+import { sortTasks } from "./../../instruments/helpers";
 
 // Components
 import Task from "../Task";
@@ -14,7 +15,7 @@ import { uiActions } from "./../../bus/ui/actions";
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks,
+        tasks: sortTasks(state.tasks),
         editingTask: state.ui.get("editingTask"),
     };
 };
