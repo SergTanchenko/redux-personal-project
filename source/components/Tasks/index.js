@@ -5,6 +5,7 @@ import { Form, Control } from "react-redux-form";
 import { bindActionCreators } from "redux";
 
 // Instruments
+import posed, { PoseGroup } from "react-pose";
 import Styles from "./../Scheduler/styles.m.css";
 import { sortTasks } from "./../../instruments/helpers";
 
@@ -12,6 +13,8 @@ import { sortTasks } from "./../../instruments/helpers";
 import Task from "../Task";
 import { tasksActions } from "./../../bus/tasks/actions";
 import { uiActions } from "./../../bus/ui/actions";
+
+const Item = posed.li({});
 
 const mapStateToProps = (state) => {
     return {
@@ -100,31 +103,32 @@ export default class Tasks extends Component {
             .map((task) => {
                 const taskId = task.get("id");
                 return (
-                    <Task
-                        completed={task.get("completed")}
-                        favorite={task.get("favorite")}
-                        id={taskId}
-                        key={taskId}
-                        message={task.get("message")}
-                        onToggleTaskCompletedState={(newValue) =>
-                            _updateTaskAsync(task, "completed", newValue)
-                        }
-                        onToggleTaskFavoriteState={(newValue) =>
-                            _updateTaskAsync(task, "favorite", newValue)
-                        }
-                        onTaskMessageSave={(newValue) =>
-                            _updateTaskAsync(task, "message", newValue)
-                        }
-                        startEditing={startEditing}
-                        stopEditing={stopEditing}
-                        editingTask={editingTask}
-                        updateEditedMessage={updateEditedMessage}
-                        onRemoveTask={() => deleteTaskAsync(taskId)}
-                        {...task}
-                    />
+                    <Item key={taskId}>
+                        <Task
+                            completed={task.get("completed")}
+                            favorite={task.get("favorite")}
+                            id={taskId}
+                            key={taskId}
+                            message={task.get("message")}
+                            onToggleTaskCompletedState={(newValue) =>
+                                _updateTaskAsync(task, "completed", newValue)
+                            }
+                            onToggleTaskFavoriteState={(newValue) =>
+                                _updateTaskAsync(task, "favorite", newValue)
+                            }
+                            onTaskMessageSave={(newValue) =>
+                                _updateTaskAsync(task, "message", newValue)
+                            }
+                            startEditing={startEditing}
+                            stopEditing={stopEditing}
+                            editingTask={editingTask}
+                            updateEditedMessage={updateEditedMessage}
+                            onRemoveTask={() => deleteTaskAsync(taskId)}
+                            {...task}
+                        />
+                    </Item>
                 );
             });
-
         return (
             <>
                 <Form model="forms.addTask" onSubmit={this._createTaskAsync}>
@@ -139,7 +143,9 @@ export default class Tasks extends Component {
                 </Form>
 
                 <div className={Styles.overlay}>
-                    <ul>{todoList}</ul>
+                    <ul>
+                        <PoseGroup>{todoList}</PoseGroup>
+                    </ul>
                 </div>
             </>
         );

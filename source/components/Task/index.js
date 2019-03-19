@@ -66,7 +66,7 @@ export default class Task extends PureComponent {
         };
 
         return (
-            <li className = { styles }>
+            <div className = { styles } key = { id }>
                 <div className = { Styles.content }>
                     <Checkbox
                         checked = { completed }
@@ -111,7 +111,7 @@ export default class Task extends PureComponent {
                         onClick = { onRemoveTask }
                     />
                 </div>
-            </li>
+            </div>
         );
     }
 }
