@@ -1,19 +1,58 @@
 /* Setup files module.
-**
-** This module will be executed before each test.
-**
-** This module contains a code to configure or set up the
-** testing environment before each test. Since every test
-** runs in its own environment, these scripts will be
-** executed in the testing environment immediately before
-** executing the test code itself.
-**
-** This module excutes before setupFramework module.
-**
-*/
-
-import { LocalStorage } from './mocks/localStorage';
-
-global.localStorage = new LocalStorage();
+ **
+ ** This module will be executed before each test.
+ **
+ ** This module contains a code to configure or set up the
+ ** testing environment before each test. Since every test
+ ** runs in its own environment, these scripts will be
+ ** executed in the testing environment immediately before
+ ** executing the test code itself.
+ **
+ ** This module excutes before setupFramework module.
+ **
+ */
 
 global.__ENV__ = global.__PROD__ = process.env.NODE_ENV;
+
+const mockedTask = {
+    id:        "5c92a92c1ec3ce8659b3197e",
+    message:   "sort tasks by date",
+    completed: true,
+    favorite:  false,
+    created:   "2019-03-20T20:57:16.767Z",
+};
+
+const responseDataSuccess = {
+    data:    [mockedTask],
+    message: "successMessage",
+};
+
+const responseDataFail = {
+    message: "errorMessage",
+};
+
+const fetchResponseSuccess = {
+    status: 200,
+    json:   jest.fn(() => Promise.resolve(responseDataSuccess)),
+};
+
+const fetchResponseSuccess204 = {
+    status: 204,
+};
+
+const fetchResponseFail401 = {
+    status: 401,
+    json:   jest.fn(() => Promise.resolve(responseDataFail)),
+};
+
+const fetchResponseFail400 = {
+    status: 400,
+    json:   jest.fn(() => Promise.resolve(responseDataFail)),
+};
+
+global.__ = {
+    mockedTask,
+    fetchResponseSuccess,
+};
+
+// global.fetch = fetch;
