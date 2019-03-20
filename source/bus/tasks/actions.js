@@ -136,7 +136,7 @@ export const tasksActions = {
             );
 
             const response = await api.tasks.updateBulk(doneTasks);
-            const { data, message } = await response.json();
+            const { message } = await response.json();
 
             if (response.status !== 200) {
                 throw new Error(message);

@@ -18,7 +18,7 @@ const Item = posed.li({});
 
 const mapStateToProps = (state) => {
     return {
-        tasks: sortTasks(state.tasks),
+        tasks:       sortTasks(state.tasks),
         editingTask: state.ui.get("editingTask"),
     };
 };
@@ -36,10 +36,31 @@ const mapDispatchToProps = (dispatch) => {
     mapStateToProps,
     mapDispatchToProps
 )
-export default class Tasks extends Component {
+class Tasks extends Component {
+    componentDidMount = () => {
+        const { actions } = this.props;
+
+        actions.fillTasksAsync();
+
+        document.addEventListener(
+            "keydown",
+            this._onEscapeClickedHandler,
+            false
+        );
+    };
+
+    componentWillUnmount = () => {
+        document.removeEventListener(
+            "keydown",
+            this._onEscapeClickedHandler,
+            false
+        );
+    };
+
     _createTaskAsync = ({ newTask }) => {
         if (newTask && newTask.trim().length > 0) {
             const { actions } = this.props;
+
             actions.createTaskAsync(newTask);
         }
     };
@@ -54,26 +75,7 @@ export default class Tasks extends Component {
         }
     };
 
-    componentWillUnmount = () => {
-        document.removeEventListener(
-            "keydown",
-            this._onEscapeClickedHandler,
-            false
-        );
-    };
-
-    componentDidMount = () => {
-        const { actions } = this.props;
-        actions.fillTasksAsync();
-
-        document.addEventListener(
-            "keydown",
-            this._onEscapeClickedHandler,
-            false
-        );
-    };
-
-    render() {
+    render () {
         const {
             tasks,
             filter,
@@ -102,47 +104,49 @@ export default class Tasks extends Component {
             )
             .map((task) => {
                 const taskId = task.get("id");
+
                 return (
-                    <Item key={taskId}>
+                    <Item key = { taskId }>
                         <Task
-                            completed={task.get("completed")}
-                            favorite={task.get("favorite")}
-                            id={taskId}
-                            key={taskId}
-                            message={task.get("message")}
-                            onToggleTaskCompletedState={(newValue) =>
-                                _updateTaskAsync(task, "completed", newValue)
-                            }
-                            onToggleTaskFavoriteState={(newValue) =>
-                                _updateTaskAsync(task, "favorite", newValue)
-                            }
-                            onTaskMessageSave={(newValue) =>
+                            completed = { task.get("completed") }
+                            editingTask = { editingTask }
+                            favorite = { task.get("favorite") }
+                            id = { taskId }
+                            key = { taskId }
+                            message = { task.get("message") }
+                            startEditing = { startEditing }
+                            stopEditing = { stopEditing }
+                            updateEditedMessage = { updateEditedMessage }
+                            onRemoveTask = { () => deleteTaskAsync(taskId) }
+                            onTaskMessageSave = { (newValue) =>
                                 _updateTaskAsync(task, "message", newValue)
                             }
-                            startEditing={startEditing}
-                            stopEditing={stopEditing}
-                            editingTask={editingTask}
-                            updateEditedMessage={updateEditedMessage}
-                            onRemoveTask={() => deleteTaskAsync(taskId)}
-                            {...task}
+                            onToggleTaskCompletedState = { (newValue) =>
+                                _updateTaskAsync(task, "completed", newValue)
+                            }
+                            onToggleTaskFavoriteState = { (newValue) =>
+                                _updateTaskAsync(task, "favorite", newValue)
+                            }
+                            { ...task }
                         />
                     </Item>
                 );
             });
+
         return (
             <>
-                <Form model="forms.addTask" onSubmit={this._createTaskAsync}>
+                <Form model = 'forms.addTask' onSubmit = { this._createTaskAsync }>
                     <Control.input
-                        className={Styles.createTask}
-                        type="text"
-                        maxLength={50}
-                        model=".newTask"
-                        placeholder="Описание моей новой задачи"
+                        className = { Styles.createTask }
+                        maxLength = { 50 }
+                        model = '.newTask'
+                        placeholder = 'Описание моей новой задачи'
+                        type = 'text'
                     />
                     <button>Добавить задачу</button>
                 </Form>
 
-                <div className={Styles.overlay}>
+                <div className = { Styles.overlay }>
                     <ul>
                         <PoseGroup>{todoList}</PoseGroup>
                     </ul>
@@ -151,3 +155,5 @@ export default class Tasks extends Component {
         );
     }
 }
+
+export default Tasks;

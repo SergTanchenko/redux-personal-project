@@ -15,9 +15,9 @@ import { bindActionCreators } from "../../../../../Users/Sergii/AppData/Local/Mi
 
 const mapStateToProps = (state) => {
     return {
-        isFetching: state.ui.get("isFetching"),
+        isFetching:  state.ui.get("isFetching"),
         searchQuery: state.ui.get("searchQuery"),
-        tasks: state.tasks,
+        tasks:       state.tasks,
     };
 };
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch) => {
     mapStateToProps,
     mapDispatchToProps
 )
-export default class Scheduler extends Component {
+class Scheduler extends Component {
     searchInput = createRef();
 
     _updateSearchQuery = (event) => {
@@ -51,7 +51,7 @@ export default class Scheduler extends Component {
         updateSearchQuery(searchQuery);
     };
 
-    render() {
+    render () {
         const {
             tasks,
             searchQuery,
@@ -62,30 +62,30 @@ export default class Scheduler extends Component {
             tasks.every((task) => task.get("completed"));
 
         return (
-            <section className={Styles.scheduler}>
+            <section className = { Styles.scheduler }>
                 <main>
                     <header>
                         <h1>Планировщик задач</h1>
                         <input
-                            ref={this.searchInput}
-                            placeholder="Поиск"
-                            type="search"
-                            onChange={this._updateSearchQuery}
-                            value={searchQuery}
+                            placeholder = 'Поиск'
+                            ref = { this.searchInput }
+                            type = 'search'
+                            value = { searchQuery }
+                            onChange = { this._updateSearchQuery }
                         />
                     </header>
                     <section>
-                        <Spinner isSpinning={isFetching} />
-                        <Tasks filter={searchQuery} />
+                        <Spinner isSpinning = { isFetching } />
+                        <Tasks filter = { searchQuery } />
                     </section>
                     <footer>
                         <Checkbox
-                            checked={isAllTasksDone()}
-                            color1="#363636"
-                            color2="#fff"
-                            onClick={markAllTasksAsDoneAsync}
+                            checked = { isAllTasksDone() }
+                            color1 = '#363636'
+                            color2 = '#fff'
+                            onClick = { markAllTasksAsDoneAsync }
                         />
-                        <span className={Styles.completeAllTasks}>
+                        <span className = { Styles.completeAllTasks }>
                             Все задачи выполнены
                         </span>
                     </footer>
@@ -94,3 +94,5 @@ export default class Scheduler extends Component {
         );
     }
 }
+
+export default Scheduler;
