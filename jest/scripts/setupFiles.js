@@ -26,7 +26,7 @@ const mockedTask = {
 };
 
 const responseDataSuccess = {
-    data:    [mockedTask],
+    data:    mockedTask,
     message: "TEST_SUCCESS_MESSAGE",
 };
 
