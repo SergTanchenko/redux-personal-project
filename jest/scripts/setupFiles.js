@@ -39,7 +39,16 @@ const fetchResponseSuccess = {
     json:   jest.fn(() => Promise.resolve(responseDataSuccess)),
 };
 
+const fetchResponseSuccess204 = {
+    status: 204,
+};
+
 const fetchResponseFail400 = {
+    status: 400,
+    json:   jest.fn(() => Promise.resolve(responseDataFail)),
+};
+
+const fetchResponseFail401 = {
     status: 400,
     json:   jest.fn(() => Promise.resolve(responseDataFail)),
 };
@@ -48,5 +57,7 @@ global.__ = {
     mockedTask,
     error,
     fetchResponseSuccess,
+    fetchResponseSuccess204,
     fetchResponseFail400,
+    fetchResponseFail401,
 };

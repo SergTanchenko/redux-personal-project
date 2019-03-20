@@ -153,4 +153,62 @@ describe("async tasks actions: ", () => {
             });
         });
     });
+
+    describe("deleteTaskAsync", () => {
+        test("should complete 204 status response scenario", async () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() =>
+                    Promise.resolve(__.fetchResponseSuccess204)
+                );
+            const dispatch = jest.fn();
+
+            await tasksActions.deleteTaskAsync(__.mockedTask.id)(dispatch);
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.START_FETCHING,
+            });
+            expect(dispatch).toBeCalledWith({
+                type: types.DELETE_TASK_ASYNC,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type:    types.DELETE_TASK,
+                payload: __.mockedTask.id,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.STOP_FETCHING,
+            });
+        });
+
+        test("should complete 401 status response scenario", async () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() =>
+                    Promise.resolve(__.fetchResponseFail401)
+                );
+            const dispatch = jest.fn();
+
+            await tasksActions.deleteTaskAsync(__.mockedTask.id)(dispatch);
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.START_FETCHING,
+            });
+            expect(dispatch).toBeCalledWith({
+                type: types.DELETE_TASK_ASYNC,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type:    uiTypes.EMIT_ERROR,
+                error:   true,
+                meta:    "deleteTaskAsync",
+                payload: __.error,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.STOP_FETCHING,
+            });
+        });
+    });
 });
