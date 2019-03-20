@@ -14,6 +14,9 @@
 
 global.__ENV__ = global.__PROD__ = process.env.NODE_ENV;
 
+const errorMessage = "TEST_ERROR_MESSAGE";
+const error = new Error(errorMessage);
+
 const mockedTask = {
     id:        "5c92a92c1ec3ce8659b3197e",
     message:   "sort tasks by date",
@@ -24,25 +27,16 @@ const mockedTask = {
 
 const responseDataSuccess = {
     data:    [mockedTask],
-    message: "successMessage",
+    message: "TEST_SUCCESS_MESSAGE",
 };
 
 const responseDataFail = {
-    message: "errorMessage",
+    message: errorMessage,
 };
 
 const fetchResponseSuccess = {
     status: 200,
     json:   jest.fn(() => Promise.resolve(responseDataSuccess)),
-};
-
-const fetchResponseSuccess204 = {
-    status: 204,
-};
-
-const fetchResponseFail401 = {
-    status: 401,
-    json:   jest.fn(() => Promise.resolve(responseDataFail)),
 };
 
 const fetchResponseFail400 = {
@@ -52,7 +46,7 @@ const fetchResponseFail400 = {
 
 global.__ = {
     mockedTask,
+    error,
     fetchResponseSuccess,
+    fetchResponseFail400,
 };
-
-// global.fetch = fetch;

@@ -58,5 +58,34 @@ describe("async tasks actions: ", () => {
                 type: uiTypes.STOP_FETCHING,
             });
         });
+
+        test("should complete 400 status response scenario", async () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() =>
+                    Promise.resolve(__.fetchResponseFail400)
+                );
+            const dispatch = jest.fn();
+
+            await tasksActions.fillTasksAsync()(dispatch);
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.START_FETCHING,
+            });
+            expect(dispatch).toBeCalledWith({
+                type: types.FILL_TASKS_ASYNC,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type:    uiTypes.EMIT_ERROR,
+                error:   true,
+                meta:    "fillTasksAsync",
+                payload: __.error,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.STOP_FETCHING,
+            });
+        });
     });
 });
