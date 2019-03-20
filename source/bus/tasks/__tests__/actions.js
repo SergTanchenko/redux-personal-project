@@ -124,33 +124,33 @@ describe("async tasks actions: ", () => {
             });
         });
 
-        // test("should complete 400 status response scenario", async () => {
-        //     global.fetch = jest
-        //         .fn()
-        //         .mockImplementation(() =>
-        //             Promise.resolve(__.fetchResponseFail400)
-        //         );
-        //     const dispatch = jest.fn();
+        test("should complete 400 status response scenario", async () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() =>
+                    Promise.resolve(__.fetchResponseFail400)
+                );
+            const dispatch = jest.fn();
 
-        //     await tasksActions.fillTasksAsync()(dispatch);
+            await tasksActions.createTaskAsync()(dispatch);
 
-        //     expect(dispatch).toBeCalledWith({
-        //         type: uiTypes.START_FETCHING,
-        //     });
-        //     expect(dispatch).toBeCalledWith({
-        //         type: types.FILL_TASKS_ASYNC,
-        //     });
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.START_FETCHING,
+            });
+            expect(dispatch).toBeCalledWith({
+                type: types.CREATE_TASK_ASYNC,
+            });
 
-        //     expect(dispatch).toBeCalledWith({
-        //         type:    uiTypes.EMIT_ERROR,
-        //         error:   true,
-        //         meta:    "createTaskAsync",
-        //         payload: __.error,
-        //     });
+            expect(dispatch).toBeCalledWith({
+                type:    uiTypes.EMIT_ERROR,
+                error:   true,
+                meta:    "createTaskAsync",
+                payload: __.error,
+            });
 
-        //     expect(dispatch).toBeCalledWith({
-        //         type: uiTypes.STOP_FETCHING,
-        //     });
-        // });
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.STOP_FETCHING,
+            });
+        });
     });
 });
