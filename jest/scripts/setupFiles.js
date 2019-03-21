@@ -8,7 +8,7 @@
  ** executed in the testing environment immediately before
  ** executing the test code itself.
  **
- ** This module excutes before setupFramework module.
+ ** This module executes before setupFramework module.
  **
  */
 
@@ -16,6 +16,10 @@ global.__ENV__ = global.__PROD__ = process.env.NODE_ENV;
 
 const errorMessage = "TEST_ERROR_MESSAGE";
 const error = new Error(errorMessage);
+
+const meta = {
+    prop1: "value1",
+};
 
 const mockedTask = {
     id:        "5c92a92c1ec3ce8659b3197e",
@@ -71,6 +75,7 @@ const fetchResponseFail401 = {
 };
 
 global.__ = {
+    meta,
     mockedTask,
     mockedUpdatedTask,
     error,
