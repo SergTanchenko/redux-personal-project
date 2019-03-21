@@ -44,7 +44,6 @@ class Scheduler extends Component {
         const searchQuery = event.target.value.toLowerCase();
 
         if (searchQuery && searchQuery.length > 0) {
-            console.log(Styles);
             this.searchInput.current.classList.add(Styles.notEmpty);
         }
 

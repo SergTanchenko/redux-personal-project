@@ -1,10 +1,10 @@
 // Paths
-import { source, statics } from '../paths';
+import { source, statics } from "../paths";
 
 // Plugins
-import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import HtmlWebpackTemplate from 'html-webpack-template';
+import FaviconsWebpackPlugin from "favicons-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import HtmlWebpackTemplate from "html-webpack-template";
 
 export const loadFonts = () => ({
     module: {
@@ -13,9 +13,9 @@ export const loadFonts = () => ({
                 test:    /\.eot|ttf|woff2?(\?v=\d+\.\d+\.\d+)?$/,
                 include: source,
                 use:     {
-                    loader:  'file-loader',
+                    loader:  "file-loader",
                     options: {
-                        name: 'fonts/[name].[hash:5].[ext]',
+                        name: "fonts/[name].[hash:5].[ext]",
                     },
                 },
             }
@@ -30,11 +30,11 @@ export const loadImages = () => ({
                 test:    /\.jpe?g|png|svg$/,
                 include: source,
                 use:     {
-                    loader:  'url-loader',
+                    loader:  "url-loader",
                     options: {
-                        fallback: 'file-loader',
+                        fallback: "file-loader",
                         limit:    8192,
-                        name:     'images/[name].[hash:5].[ext]',
+                        name:     "images/[name].[hash:5].[ext]",
                     },
                 },
             }
@@ -45,9 +45,9 @@ export const loadImages = () => ({
 export const setupFavicon = () => ({
     plugins: [
         new FaviconsWebpackPlugin({
-            logo:            './static/favicon/favicon.svg',
-            prefix:          'images/favicon/icon-[hash]',
-            statsFilename:   'iconstats-[hash].json',
+            logo:            "./static/favicon/favicon.svg",
+            prefix:          "images/favicon/icon-[hash]",
+            statsFilename:   "iconstats-[hash].json",
             persistentCache: true,
         })
     ],
@@ -58,15 +58,16 @@ export const setupHtml = () => ({
         new HtmlWebpackPlugin({
             inject:   false,
             template: HtmlWebpackTemplate,
-            title:    'Интенсив по Redux: персональный проект',
+            title:    "Планировщик задач",
             favicon:  `${statics}/favicon/Lectrum-favicon-512x512.png`,
             meta:     [
                 {
-                    name:    'viewport',
-                    content: 'user-scalable=no, width=device-width, initial-scale=1',
+                    name:    "viewport",
+                    content:
+                        "user-scalable=no, width=device-width, initial-scale=1",
                 }
             ],
-            appMountIds: ['app', 'spinner'],
+            appMountIds: ["app", "spinner"],
         })
     ],
 });
