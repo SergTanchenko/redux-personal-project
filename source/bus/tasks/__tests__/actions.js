@@ -211,4 +211,65 @@ describe("async tasks actions: ", () => {
             });
         });
     });
+
+    describe("updateTaskAsync", () => {
+        test("should complete 200 status response scenario", async () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() =>
+                    Promise.resolve(__.fetchArrayResponseSuccess)
+                );
+            const dispatch = jest.fn();
+            const updatedTask = __.mockedTask;
+            const task = __.mockedTask;
+
+            await tasksActions.updateTaskAsync({ updatedTask })(dispatch);
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.START_FETCHING,
+            });
+            expect(dispatch).toBeCalledWith({
+                type: types.UPDATE_TASK_ASYNC,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type:    types.UPDATE_TASK,
+                payload: { task },
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.STOP_FETCHING,
+            });
+        });
+
+        test("should complete 400 status response scenario", async () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() =>
+                    Promise.resolve(__.fetchResponseFail400)
+                );
+            const dispatch = jest.fn();
+            const updatedTask = __.mockedTask;
+
+            await tasksActions.updateTaskAsync({ updatedTask })(dispatch);
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.START_FETCHING,
+            });
+            expect(dispatch).toBeCalledWith({
+                type: types.UPDATE_TASK_ASYNC,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type:    uiTypes.EMIT_ERROR,
+                error:   true,
+                meta:    "updateTaskAsync",
+                payload: __.error,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.STOP_FETCHING,
+            });
+        });
+    });
 });

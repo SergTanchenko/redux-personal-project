@@ -108,14 +108,12 @@ export const tasksActions = {
             });
 
             const response = await api.tasks.update(updatedTask);
-            const {
-                data: [task],
-                message,
-            } = await response.json();
+            const { data, message } = await response.json();
 
             if (response.status !== 200) {
                 throw new Error(message);
             }
+            const [task] = data;
 
             dispatch(tasksActions.updateTask({ task }));
         } catch (error) {

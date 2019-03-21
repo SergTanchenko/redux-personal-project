@@ -30,6 +30,11 @@ const responseDataSuccess = {
     message: "TEST_SUCCESS_MESSAGE",
 };
 
+const responseDataArraySuccess = {
+    data:    [mockedTask],
+    message: "TEST_SUCCESS_MESSAGE",
+};
+
 const responseDataFail = {
     message: errorMessage,
 };
@@ -37,6 +42,11 @@ const responseDataFail = {
 const fetchResponseSuccess = {
     status: 200,
     json:   jest.fn(() => Promise.resolve(responseDataSuccess)),
+};
+
+const fetchArrayResponseSuccess = {
+    status: 200,
+    json:   jest.fn(() => Promise.resolve(responseDataArraySuccess)),
 };
 
 const fetchResponseSuccess204 = {
@@ -57,6 +67,7 @@ global.__ = {
     mockedTask,
     error,
     fetchResponseSuccess,
+    fetchArrayResponseSuccess,
     fetchResponseSuccess204,
     fetchResponseFail400,
     fetchResponseFail401,
