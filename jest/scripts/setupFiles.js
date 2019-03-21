@@ -21,6 +21,8 @@ const meta = {
     prop1: "value1",
 };
 
+const mockedSearchQuery = "NEW_SEARCH_QUERY";
+
 const mockedTask = {
     id:        "5c92a92c1ec3ce8659b3197e",
     message:   "sort tasks by date",
@@ -77,6 +79,7 @@ const fetchResponseFail401 = {
 global.__ = {
     meta,
     mockedTask,
+    mockedSearchQuery,
     mockedUpdatedTask,
     error,
     fetchResponseSuccess,

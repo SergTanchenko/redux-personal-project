@@ -41,7 +41,7 @@ Object {
     });
 
     test("updateSearchQuery", () => {
-        expect(uiActions.updateSearchQuery("NEW_SEARCH_QUERY"))
+        expect(uiActions.updateSearchQuery(__.mockedSearchQuery))
             .toMatchInlineSnapshot(`
 Object {
   "payload": "NEW_SEARCH_QUERY",
