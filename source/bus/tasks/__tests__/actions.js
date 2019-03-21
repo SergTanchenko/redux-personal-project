@@ -1,4 +1,4 @@
-import { actions } from "react-redux-form";
+import { fromJS } from "immutable";
 
 import { types } from "./../types";
 import { types as uiTypes } from "./../../ui/types";
@@ -264,6 +264,73 @@ describe("async tasks actions: ", () => {
                 type:    uiTypes.EMIT_ERROR,
                 error:   true,
                 meta:    "updateTaskAsync",
+                payload: __.error,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.STOP_FETCHING,
+            });
+        });
+    });
+
+    describe("markAllTasksAsDoneAsync", () => {
+        test("should complete 200 status response scenario", async () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() =>
+                    Promise.resolve(__.fetchResponseSuccess)
+                );
+            const dispatch = jest.fn();
+            const getState = jest.fn(() => {
+                return {
+                    tasks: [fromJS(__.mockedTask)],
+                };
+            });
+
+            await tasksActions.markAllTasksAsDoneAsync()(dispatch, getState);
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.START_FETCHING,
+            });
+            expect(dispatch).toBeCalledWith({
+                type: types.MARK_ALL_TASKS_AS_DONE_ASYNC,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type: types.MARK_ALL_TASKS_AS_DONE,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.STOP_FETCHING,
+            });
+        });
+
+        test("should complete 400 status response scenario", async () => {
+            global.fetch = jest
+                .fn()
+                .mockImplementation(() =>
+                    Promise.resolve(__.fetchResponseFail400)
+                );
+            const dispatch = jest.fn();
+            const getState = jest.fn(() => {
+                return {
+                    tasks: [fromJS(__.mockedTask)],
+                };
+            });
+
+            await tasksActions.markAllTasksAsDoneAsync()(dispatch, getState);
+
+            expect(dispatch).toBeCalledWith({
+                type: uiTypes.START_FETCHING,
+            });
+            expect(dispatch).toBeCalledWith({
+                type: types.MARK_ALL_TASKS_AS_DONE_ASYNC,
+            });
+
+            expect(dispatch).toBeCalledWith({
+                type:    uiTypes.EMIT_ERROR,
+                error:   true,
+                meta:    "markAllTasksAsDoneAsync",
                 payload: __.error,
             });
 

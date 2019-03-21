@@ -20,10 +20,12 @@ const error = new Error(errorMessage);
 const mockedTask = {
     id:        "5c92a92c1ec3ce8659b3197e",
     message:   "sort tasks by date",
-    completed: true,
+    completed: false,
     favorite:  false,
     created:   "2019-03-20T20:57:16.767Z",
 };
+
+const mockedCompletedTask = mockedTask.completed = true;
 
 const responseDataSuccess = {
     data:    mockedTask,
@@ -65,6 +67,7 @@ const fetchResponseFail401 = {
 
 global.__ = {
     mockedTask,
+    mockedCompletedTask,
     error,
     fetchResponseSuccess,
     fetchArrayResponseSuccess,
