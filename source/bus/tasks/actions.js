@@ -122,7 +122,7 @@ export const tasksActions = {
             dispatch(uiActions.stopFetching());
         }
     },
-    // markAllTasksAsDoneAsync: () => async (dispatch, getState) => {
+    markAllTasksAsDoneAsync: () => async (dispatch, getState) => {
         try {
             dispatch(uiActions.startFetching());
             dispatch({
