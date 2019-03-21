@@ -25,7 +25,12 @@ const mockedTask = {
     created:   "2019-03-20T20:57:16.767Z",
 };
 
-const mockedCompletedTask = mockedTask.completed = true;
+const mockedUpdatedTask = {
+    ...mockedTask,
+    completed: true,
+    favorite:  true,
+    message:   "UPDATED_TASK_MESSAGE",
+};
 
 const responseDataSuccess = {
     data:    mockedTask,
@@ -67,7 +72,7 @@ const fetchResponseFail401 = {
 
 global.__ = {
     mockedTask,
-    mockedCompletedTask,
+    mockedUpdatedTask,
     error,
     fetchResponseSuccess,
     fetchArrayResponseSuccess,
